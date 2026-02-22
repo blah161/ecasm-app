@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>eCASM™ Compiler – AAD Systems</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #050616;
+      --bg-soft: #0c0f27;
+      --card: #10152e;
+      --accent: #7b5bff;
+      --accent-soft: rgba(123, 91, 255, 0.18);
+      --accent-gold: #cfa663;
+      --text-main: #f4f4ff;
+      --text-muted: #b5b8d4;
+      --border-subtle: rgba(255,255,255,0.06);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(circle at top left, #171b48 0, #050616 55%, #02010a 100%);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: #8cb4ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Top Nav */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 40px;
+      border-bottom: 1px solid var(--border-subtle);
+      background: linear-gradient(90deg, rgba(9,11,32,0.98), rgba(12,16,44,0.96));
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-line1 {
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      color: #cfd3ff;
+    }
+
+    .brand-line2 {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .nav-link {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      background: transparent;
+    }
+
+    .nav-link:hover {
+      border-color: rgba(255,255,255,0.12);
+      color: #e1e4ff;
+    }
+
+    .nav-cta {
+      padding: 9px 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #7b5bff, #c770ff);
+      border: none;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 0 18px rgba(123, 91, 255, 0.45);
+    }
+
+    .nav-cta:hover {
+      filter: brightness(1.05);
+      transform: translateY(-0.5px);
+    }
+
+    /* Hero */
+    .hero-wrap {
+      max-width: 980px;
+      margin: 40px auto 24px auto;
+      padding: 0 24px;
+    }
+
+    .hero-card {
+      background: radial-gradient(circle at top left, rgba(255,255,255,0.05), transparent 55%),
+                  linear-gradient(145deg, rgba(17, 22, 64, 0.96), rgba(6, 9, 32, 0.98));
+      border-radius: 20px;
+      padding: 32px 34px 30px 34px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 26px 60px rgba(0,0,0,0.6);
+    }
+
+    .hero-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin: 0 0 6px 0;
+    }
+
+    .hero-subtitle {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .hero-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+      margin: 10px 0 22px 0;
+    }
+
+    .hero-highlight {
+      font-size: 0.9rem;
+      color: #ffc78a;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .hero-text {
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: var(--text-main);
+      max-width: 720px;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .primary-cta, .secondary-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 11px 20px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .primary-cta {
+      background: linear-gradient(135deg, #ffb347, #ff6b3d);
+      color: #1b1022;
+      box-shadow: 0 12px 30px rgba(255, 140, 82, 0.55);
+      border: none;
+    }
+
+    .primary-cta:hover {
+      filter: brightness(1.06);
+      transform: translateY(-0.5px);
+    }
+
+    .secondary-cta {
+      background: rgba(0,0,0,0.15);
+      color: #e6e6ff;
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+
+    .secondary-cta:hover {
+      background: rgba(0,0,0,0.28);
+    }
+
+    /* Sections */
+    .sections-wrap {
+      max-width: 980px;
+      margin: 0 auto 60px auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr);
+      gap: 20px;
+    }
+
+    .section-card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 22px 24px 20px 24px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+    }
+
+    .section-label {
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin: 0 0 10px 0;
+    }
+
+    .section-body {
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .foundations-link {
+      margin-top: 10px;
+      padding: 11px 14px;
+      border-radius: 12px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(123, 91, 255, 0.4);
+      font-size: 0.9rem;
+    }
+
+    .foundations-link a {
+      font-weight: 600;
+      color: #c2c9ff;
+    }
+
+    .foundations-link a:hover {
+      color: #e4e7ff;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 18px 24px 26px 24px;
+      text-align: center;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      background: #050616;
+    }
+
+    footer span {
+      display: block;
+      margin-top: 4px;
+      font-size: 0.8rem;
+      color: #8c90aa;
+    }
+
+    @media (max-width: 720px) {
+      .topbar {
+        padding: 14px 18px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .hero-card {
+        padding: 22px 18px 22px 18px;
+      }
+      .sections-wrap {
+        margin-bottom: 40px;
+      }
+      .cta-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .primary-cta, .secondary-cta {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top navigation -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-line1">ECASM™ COMPILER</div>
+      <div class="brand-line2">AAD Systems™ · Executable CASM → Machine Code</div>
+    </div>
+
+    <div class="nav-actions">
+      <button class="nav-link" onclick="window.open('https://ecasm.aadsystems.com/compiler','_blank')">
+  Launch Compiler
+</button>
+    <button class="nav-link"
+        onclick="window.open('https://ecasm.aadsystems.com/static/documentation.html','_blank')">
+  Documentation
+</button>
+      <button class="nav-cta"
+              onclick="window.open('https://checkout.square.site/merchant/MLPC93S9AC77C/checkout/IHMELERAJHDEQFN5FJMQD5RQ','_blank')">
+        Buy eCASM™ – $9.99/mo
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main>
+    <section class="hero-wrap">
+      <div class="hero-card">
+        <h1 class="hero-title">eCASM™ Compiler – AAD Systems</h1>
+        <div class="hero-subtitle">
+          Quantum Assembly Compiler · Executable Logic for CASM → Machine Code
+        </div>
+
+        <div class="hero-divider"></div>
+
+        <div class="hero-highlight">eCASM™ is <strong>not</strong> a simulator.</div>
+
+        <p class="hero-text">
+          eCASM™ stands for <strong>Extended Concise Assembly System Model</strong>, 
+          a minimalist, logic-verification compiler for quantum-style programs. With a compact 
+          four-opcode instruction set, eCASM™ lets students and researchers validate control flow, 
+          branching, measurement, and program structure—without hardware, Python, or installation. 
+          Designed for classrooms, labs, and research groups needing fast, clean, transparent logic testing.
+        </p>
+
+        <div class="cta-row">
+          <a class="primary-cta"
+             href="https://checkout.square.site/merchant/MLPC93S9AC77C/checkout/IHMELERAJHDEQFN5FJMQD5RQ"
+             target="_blank" rel="noopener">
+            eCASM Compiler™  Full Access – $9.99/month
+          </a>
+
+          <a class="secondary-cta"
+   href="https://ecasm.aadsystems.com/compiler"
+   target="_blank" rel="noopener">
+  Launch eCASM Compiler™
+</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sections -->
+    <section class="sections-wrap">
+
+      <!-- Section 1: What is eCASM Compiler -->
+      <article class="section-card">
+        <div class="section-label">📘 SECTION 1</div>
+        <h2 class="section-title">What is eCASM Compiler™?</h2>
+
+        <div class="section-body">
+          <p>
+            eCASM™ (Extended Concise Assembly System Model) is a next-generation compiler 
+            that converts advanced symbolic logic code into streamlined, executable output.
+          </p>
+          <p>
+            Built for early-stage quantum and experimental computing environments, eCASM applies strict,
+            rule-based transformations to maximize precision, eliminate ambiguity, and give developers
+            full control over outcomes — no AI, no guesswork.
+          </p>
+        </div>
+      </article>
+
+      <!-- eCASM Foundations -->
+      <article class="section-card">
+        <div class="section-label">📘 ECASM FOUNDATIONS</div>
+        <h2 class="section-title">Download the eCASM Algebra</h2>
+
+        <div class="section-body">
+          The mathematical foundation of the instruction set is defined in the eCASM Algebra 
+          (Extended Edition), a structural formalism built on the Concise Assembly System Model.
+        </div>
+
+        <div class="foundations-link">
+          👉
+          <a href="https://drive.google.com/file/d/14Zs0--WUeJPYEN1N2DNj7WD17TDmEqIl/view?usp=sharing"
+             target="_blank" rel="noopener">
+            eCASM Algebra (Extended Edition, v1) — PDF
+          </a>
+        </div>
+      </article>
+
+      <!-- Section 2: What is CASM -->
+      <article class="section-card">
+        <div class="section-label">📘 SECTION 2</div>
+        <h2 class="section-title">What is CASM™?</h2>
+
+        <div class="section-body">
+          <p>
+            <strong>CASM</strong> stands for <strong>Concise Assembly System Model</strong>, 
+            a specialized low-level language designed for expressing precise logic structures in
+            emerging computing systems.
+          </p>
+
+          <p>
+            Unlike conventional assembly languages, CASM operates on higher-order symbolic logic, 
+            enabling ultra-fine control over each step in a computation pipeline.
+          </p>
+
+          <p>
+            CASM is ideal for experimental platforms requiring transparency, repeatability, 
+            and exact transformations — particularly in research, simulation, and 
+            quantum-adjacent environments.
+          </p>
+        </div>
+      </article>
+
+    </section>
+  </main>
+
+  <footer>
+  © 2025 AAD Systems™ · All Rights Reserved
+  <span>Support is limited to billing and license access.</span>
+  <span>
+    Contact: <a href="mailto:adrian@aadsystems.com">adrian@aadsystems.com</a>
+  </span>
+</footer>
+<!-- Default Statcounter code for ecasm
+https://ecasm.aadsystems.com/ -->
+<script type="text/javascript">
+var sc_project=13195481; 
+var sc_invisible=1; 
+var sc_security="0dd61680"; 
+</script>
+<script type="text/javascript"
+src="https://www.statcounter.com/counter/counter.js"
+async></script>
+<noscript><div class="statcounter"><a title="Web Analytics"
+href="https://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="https://c.statcounter.com/13195481/0/0dd61680/1/"
+alt="Web Analytics"
+referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+<!-- End of Statcounter Code -->
+</body>
+</html>

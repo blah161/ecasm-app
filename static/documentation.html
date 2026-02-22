@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>eCASM™ Developer Manual v1.0 · AAD Systems™</title>
+
+<!-- ========================= -->
+<!--  DARK PREMIUM + NEON GLOW -->
+<!-- ========================= -->
+
+<style>
+  body {
+    margin: 0;
+    font-family: "Inter", Helvetica, Arial, sans-serif;
+    background: #060712;
+    color: #f4f4ff;
+    line-height: 1.7;
+  }
+
+  /* ========================= */
+  /* MICRO-ABSTRACT STYLING   */
+  /* ========================= */
+  .micro-abstract {
+    background: linear-gradient(135deg, rgba(120, 80, 255, 0.12), rgba(60, 30, 180, 0.08));
+    padding: 22px 26px;
+    margin: 2rem auto 2.5rem;
+    max-width: 900px;
+    border-left: 4px solid #a88aff;
+    border-radius: 10px;
+    box-shadow: 0 0 18px rgba(120, 80, 255, 0.15);
+  }
+  .micro-abstract h2 {
+    margin-top: 0;
+    color: #dcd0ff;
+    font-size: 1.35rem;
+    text-shadow: 0 0 6px #5a2aff;
+  }
+
+  /* ========================= */
+  /* FLOATING ANCHOR MENU      */
+  /* ========================= */
+  .floating-menu {
+    position: fixed;
+    top: 140px;
+    right: 22px;
+    width: 210px;
+    padding: 14px 18px;
+    background: rgba(20, 10, 40, 0.85);
+    border: 1px solid rgba(160, 120, 255, 0.28);
+    border-radius: 12px;
+    box-shadow: 0 0 18px rgba(120, 80, 255, 0.25);
+    backdrop-filter: blur(6px);
+    z-index: 9999;
+  }
+  .floating-menu h3 {
+    margin: 0 0 8px;
+    font-size: 1.05rem;
+    color: #e5d9ff;
+    text-shadow: 0 0 5px #653bff;
+  }
+  .floating-menu a {
+    display: block;
+    margin: 6px 0;
+    font-size: 0.95rem;
+    color: #c7b5ff;
+    text-decoration: none;
+  }
+  .floating-menu a:hover {
+    text-decoration: underline;
+    color: #ffffff;
+  }
+
+  /* HEADER BAR */
+  header {
+    background: linear-gradient(135deg, #1a005a 0%, #3b00b8 50%, #7d1bff 100%);
+    padding: 3rem 2rem 3.4rem;
+    text-align: center;
+    border-bottom: 2px solid rgba(255,255,255,0.08);
+    box-shadow: 0 0 35px rgba(120, 0, 255, 0.55);
+  }
+  header h1 {
+    font-size: 2.9rem;
+    margin: 0;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 0 12px #a066ff, 0 0 22px #7d2bff;
+    letter-spacing: 0.5px;
+  }
+  header h2 {
+    margin-top: 0.7rem;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #d6cfff;
+    opacity: 0.85;
+  }
+
+  /* MAIN BODY */
+  main {
+    max-width: 980px;
+    margin: 2.7rem auto;
+    padding: 0 1.8rem;
+  }
+
+  h1 {
+    font-size: 1.85rem;
+    margin-top: 3rem;
+    font-weight: 700;
+    color: #ffffff;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #7d3bff;
+    text-shadow: 0 0 6px #4920ff;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+    margin-top: 2.2rem;
+    font-weight: 600;
+    color: #e5ddff;
+  }
+
+  h3 {
+    font-size: 1.18rem;
+    margin-top: 1.5rem;
+    color: #d9ceff;
+  }
+
+  p, li {
+    font-size: 1.03rem;
+    color: #dcdcff;
+  }
+
+  a {
+    color: #9d7dff;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+    color: #c9b3ff;
+  }
+
+  /* TABLE OF CONTENTS */
+  ol {
+    margin-left: 1.2rem;
+  }
+  ol li {
+    margin-bottom: 0.5rem;
+  }
+
+  /* CODE BLOCKS */
+  pre {
+    background: #f4f4f8;
+    color: #222;
+    border-radius: 8px;
+    border: 1px solid #d0d4e8;
+    padding: 1rem 1.3rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    overflow-x: auto;
+    margin: 1rem 0 1.4rem;
+  }
+  code {
+  font-family: 'JetBrains Mono', Menlo, Consolas, monospace;
+  color: #ffd9a6;
+  background: rgba(255, 200, 120, 0.12);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.95em;
+}
+
+  /* HIGHLIGHT BLOCK */
+  .highlight-block {
+    margin-top: 40px;
+    padding: 24px;
+    background: rgba(120, 80, 255, 0.08);
+    border-left: 4px solid #a88aff;
+    border-radius: 10px;
+  }
+  .highlight-block h3 {
+    color: #c8b6ff;
+    font-size: 1.28rem;
+    margin-top: 0;
+    text-shadow: 0 0 8px #5b2aff;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid rgba(200, 200, 255, 0.08);
+    margin: 3rem 0;
+  }
+
+  footer {
+    background: linear-gradient(135deg, #1a005a 0%, #3b00b8 50%, #7d1bff 100%);
+    color: #f0eaff;
+    padding: 2rem;
+    text-align: center;
+    font-size: 0.95rem;
+    margin-top: 5rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 0 22px rgba(120, 0, 255, 0.25);
+  }
+  /* TABLE ALIGNMENT FIX — Summary Table Only */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+table th, table td {
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 1.05rem;
+  white-space: nowrap;
+}
+
+table th {
+  color: #e6dfff;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+table td:nth-child(1) { width: 90px; }
+table td:nth-child(2) { width: 110px; }
+table td:nth-child(3) { width: auto; }
+</style>
+
+</head>
+
+<body>
+
+<!-- ========================= -->
+<!-- FLOATING ANCHOR MENU     -->
+<!-- ========================= -->
+<div class="floating-menu">
+  <h3>Quick Jump</h3>
+  <a href="#sec1">Introduction</a>
+  <a href="#sec2">Access & Usage</a>
+  <a href="#sec3">Syntax Overview</a>
+  <a href="#sec4">Operational Schema</a>
+  <a href="#sec5">Classical Interoperation</a>
+  <a href="#sec6">Output & Emitter</a>
+  <a href="#sec7">Error Guide</a>
+  <a href="#sec8">Compilation Flow</a>
+  <a href="#sec9">Advanced Usage</a>
+  <a href="#sec10">Domain Examples</a>
+  <a href="#sec11">Debug Reference</a>
+  <a href="#sec12">Troubleshooting</a>
+  <a href="#sec13">Licensing</a>
+    <hr style="margin:10px 0; border-top:1px solid rgba(200,200,255,0.15);" />
+  <a href="#appendices">Appendices</a>
+  <a href="#appendix-a" style="margin-left:10px;">Glossary</a>
+  <a href="#appendix-b" style="margin-left:10px;">Errors & Warnings</a>
+  <a href="#appendix-c" style="margin-left:10px;">Index</a>
+</div>
+
+<header>
+  <h1>eCASM™ Developer Manual</h1>
+  <h2>Version 1.0 · AAD Systems™ · November 2025</h2>
+</header>
+
+<main>
+
+<!-- ========================= -->
+<!-- MICRO-ABSTRACT BLOCK      -->
+<!-- ========================= -->
+<div class="micro-abstract">
+  <h2>Micro-Abstract</h2>
+  <p>
+    The eCASM™ Developer Manual defines the full instruction-set semantics,
+    operational schema, syntax patterns, and deterministic compilation flow
+    for the CASM language family.
+    It is designed as a precise, engineering-grade reference for students,
+    researchers, and developers working in quantum-adjacent, symbolic logic,
+    and experimental computing environments.
+  </p>
+
+  <p>
+    <strong>CASM</strong> stands for <strong>Concise Assembly System Model</strong>, and
+    <strong>eCASM</strong> stands for <strong> Extended Concise Assembly System Model</strong>.
+    These definitions provide the formal foundation of the instruction set and
+    the compilation semantics used throughout this manual.
+  </p>
+</div>
+<h1 id="toc">Table of Contents</h1>
+
+<ol>
+  <li><a href="#sec1">Introduction</a></li>
+  <li><a href="#sec2">Access and Usage</a></li>
+  <li><a href="#sec3">Language Design and Syntax Overview</a></li>
+  <li><a href="#sec4">The eCASM Operational Schema (v1.0)</a></li>
+  <li><a href="#sec5">Classical Interoperation</a></li>
+  <li><a href="#sec6">Compiler Output and Emitter Behavior</a></li>
+  <li><a href="#sec7">Error Handling and Debugging (Guide)</a></li>
+  <li><a href="#sec8">Compilation Flow</a></li>
+  <li><a href="#sec9">Advanced Usage and Roadmap</a></li>
+  <li><a href="#sec10">Domain Examples</a></li>
+  <li><a href="#sec11">Error Handling and Debugging (Reference)</a></li>
+  <li><a href="#sec12">Troubleshooting Guide</a></li>
+  <li><a href="#sec13">Licensing and Support</a></li>
+  <li><a href="#appendices">Appendices (Glossary, Errors, Index)</a></li>
+</ol>
+
+<hr>
+
+<!-- FOUNDATIONS BLOCK -->
+<div class="highlight-block">
+  <h3>📘 eCASM Foundations — Formal Algebra</h3>
+  <p>
+    The mathematical foundation of the eCASM instruction set is defined in the
+    <strong>eCASM Algebra</strong> (Extended Edition v1).
+    It introduces the structural semantics behind the four-opcode system and the
+    principles that unify program formation and deterministic logic interpretation.
+  </p>
+
+  <p style="margin-top:14px;">
+    <a href="https://drive.google.com/file/d/14Zs0--WUeJPYEN1N2DNj7WD17TDmEqIl/view?usp=sharing"
+       target="_blank"
+       style="font-size:1.05rem; font-weight:700;">
+      ➜ Download the eCASM Algebra (PDF)
+    </a>
+  </p>
+</div>
+
+<hr>
+
+<!-- ========================= -->
+<!-- § 1 — INTRODUCTION  -->
+<!-- ========================= -->
+
+<h1 id="sec1">1 · Introduction</h1>
+
+<p>
+  eCASM™ is a browser-based compiler that translates concise quantum-style
+  assembly programs into executable, human-readable output.
+  It provides researchers, students, and engineers with a minimal environment for
+  exploring logic flow, instruction structure, and digital-state reasoning —
+  all without simulation stacks or hardware dependencies.
+</p>
+
+<p><strong>Important:</strong>
+eCASM™ is <em>not</em> a quantum simulator.
+It does not model amplitudes, probabilities, coherence, or hardware effects.
+Instead, it verifies the <strong>structural correctness</strong> of programs:
+opcode sequencing, control flow, measurement placement, and semantic consistency.
+</p>
+
+<p>
+  CASM™ (“chasm”) stands for <strong>Concise Assembly System Model</strong>,
+  a four-opcode instruction language designed for clarity, transparency, and
+  deterministic verification.
+</p>
+
+<h3>Key Highlights</h3>
+<ul>
+  <li>Compact four-opcode instruction set</li>
+  <li>Instant, in-browser compilation</li>
+  <li>Deterministic logic verification</li>
+  <li>Emitter panel for step-by-step execution</li>
+  <li>Applicable across physics, economics, biology, robotics, and finance</li>
+</ul>
+
+<hr>
+
+<!-- ========================= -->
+<!-- § 2 — ACCESS/USAGE  -->
+<!-- ========================= -->
+
+<h1 id="sec2">2 · Access and Usage</h1>
+
+<h2>Getting Started</h2>
+<ol>
+  <li>Visit the eCASM Compiler homepage</li>
+  <li>Paste your CASM code into the editor</li>
+  <li>Click <strong>Compile</strong></li>
+  <li>Review the Emitter Trace and Output Panels</li>
+</ol>
+
+<h2>License System</h2>
+<ul>
+  <li>Free users: five compiles per day</li>
+  <li>Licensed users: unlimited compiles</li>
+  <li>Keys delivered instantly via Square Checkout</li>
+</ul>
+
+<h2>Interface Overview</h2>
+<ul>
+  <li><strong>Code Editor Panel</strong> — input CASM instructions</li>
+  <li><strong>Opcode Shortcuts</strong> — X, H, CX, MEASURE</li>
+  <li><strong>Emitter Output Panel</strong> — step-by-step execution</li>
+  <li><strong>Toolbar</strong> — Load Demo, Clear, Copy Output, Download</li>
+</ul>
+
+<hr>
+
+<!-- ========================= -->
+<!-- § 3 — SYNTAX        -->
+<!-- ========================= -->
+
+<h1 id="sec3">3 · Language Design and Syntax Overview</h1>
+
+<p>eCASM uses a compact assembly-like syntax: <strong>one operation per line</strong>.</p>
+
+<h3>Core Opcodes</h3>
+<pre>
+X          Bit flip
+H          Superposition (Hadamard)
+CX         Controlled operation
+MEASURE    Observation into classical bit
+</pre>
+
+<h3>Syntax Rules</h3>
+<ul>
+  <li>Qubits: Q0–Qn</li>
+  <li>Classical bits: C0–Cn</li>
+  <li>Opcodes uppercase only</li>
+  <li>Comma-separated arguments</li>
+  <li>Comments begin with <code>#</code></li>
+</ul>
+
+<h3>Example</h3>
+
+<pre>
+H Q0
+CX Q0, Q1
+MEASURE Q1 -> C0
+</pre>
+
+<hr>
+
+<!-- ====================================== -->
+<!-- § 4 — OPERATIONAL SCHEMA (v1.0)  -->
+<!-- ====================================== -->
+
+<h1 id="sec4">4 · The eCASM Operational Schema (v1.0)</h1>
+
+<section id="operational-schema">
+
+<h2>4.1 · Opcodes (Four-Opcode Instruction Set)</h2>
+
+<h3>Q0 — WORLD</h3>
+<p>Initializes or references a world container.</p>
+<pre>
+XQ0
+</pre>
+
+<h3>Q1 — TRANSPORT</h3>
+<p>Moves or hands off symbolic values between world references.</p>
+<pre>
+ABC Q0
+T Q1
+</pre>
+
+<h3>Q2 — COMPARE</h3>
+<p>Binary comparison or interaction between world references.</p>
+<pre>
+cxz Q0, Q1
+</pre>
+
+<h3>Q3 — TRANSFORM (Universal / T-Gate)</h3>
+<p>Applies a universal transformation to a world reference.</p>
+<pre>
+T Q1
+</pre>
+
+<hr>
+
+<h2>4.2 · Symbols</h2>
+<ul>
+  <li><strong>Identifiers:</strong> X, ABC, cxz</li>
+  <li><strong>World references:</strong> Q0, Q1</li>
+  <li><strong>Comma:</strong> separates arguments</li>
+  <li><strong>Whitespace:</strong> token delimiter</li>
+</ul>
+
+<hr>
+
+<h2>4.3 · Labels</h2>
+<p>Labels must be unique and declared using a colon-prefixed syntax.</p>
+<pre>
+:Lstart
+:Lend
+</pre>
+
+<ul>
+  <li>Illegal: redefining an existing label</li>
+  <li>Required: referenced labels must exist</li>
+</ul>
+
+<hr>
+
+<h2>4.4 · Error Messages</h2>
+
+<h3>Syntax Errors</h3>
+<ul>
+  <li>ERROR: Invalid opcode</li>
+  <li>ERROR: Wrong number of arguments</li>
+  <li>ERROR: Unexpected comma</li>
+  <li>ERROR: Illegal character</li>
+</ul>
+
+<h3>Label Errors</h3>
+<ul>
+  <li>ERROR: Undefined label</li>
+  <li>ERROR: Duplicate label</li>
+</ul>
+
+<h3>Semantic Errors</h3>
+<ul>
+  <li>ERROR: World mismatch (Q0/Q1 conflict)</li>
+  <li>ERROR: Invalid compare signature</li>
+  <li>ERROR: Illegal transform target</li>
+</ul>
+
+<h3>Emit Errors</h3>
+<ul>
+  <li>ERROR: Emit failure</li>
+  <li>ERROR: Dangling reference</li>
+</ul>
+
+<hr>
+
+<h2>4.5 · Diagnostics</h2>
+<ul>
+  <li>WARNING: Unused label</li>
+  <li>WARNING: Redundant instruction</li>
+  <li>WARNING: No-op transform</li>
+</ul>
+
+<hr>
+
+<h2>4.6 · Program Shape (Canonical Form)</h2>
+
+<pre>
+:Lstart
+XQ0
+ABC Q0
+cxz Q0, Q1
+T Q1
+:Lend
+</pre>
+
+<hr>
+
+<h2>4.7 · Emit Format</h2>
+<ul>
+  <li>One output instruction per line</li>
+  <li>Deterministic mapping from CASM instructions to machine code</li>
+  <li>Optional metadata header</li>
+</ul>
+
+</section>
+
+<hr>
+<!-- ========================= -->
+<!-- § 5 — CLASSICAL     -->
+<!-- ========================= -->
+
+<h1 id="sec5">5 · Classical Interoperation</h1>
+
+<h2>Conditional Flow</h2>
+<pre>
+MEASURE Q0 -> C0
+IF C0 == 1 GOTO END
+X Q1
+LABEL END
+</pre>
+
+<h2>Labels and Loops</h2>
+<pre>
+LABEL START
+H Q0
+MEASURE Q0 -> C0
+IF C0 == 1 GOTO START
+</pre>
+
+<h2>Hybrid Example</h2>
+<pre>
+H Q0
+MEASURE Q0 -> C0
+IF C0 == 0 GOTO CONTINUE
+X Q1
+LABEL CONTINUE
+MEASURE Q1 -> C1
+</pre>
+
+<hr>
+
+<!-- ========================= -->
+<!-- § 6 — OUTPUT        -->
+<!-- ========================= -->
+
+<h1 id="sec6">6 · Compiler Output and Emitter Behavior</h1>
+
+<p>
+The compiler translates each instruction into a structured internal representation
+and produces a human-readable <code>.ecasm</code> file.
+</p>
+
+<h2>Compilation Sequence</h2>
+<ol>
+  <li>Parse — validate syntax</li>
+  <li>Execute — apply operations</li>
+  <li>Emit — produce <code>.ecasm</code> output</li>
+</ol>
+
+<h2>Example Compilation</h2>
+
+<pre>
+Input:
+H Q0
+CX Q0, Q1
+MEASURE Q0 -> C0
+
+Output Summary:
+Instruction Count: 3
+1. H applied to Q0
+2. CX applied to Q0, Q1
+3. MEASURE stored Q0 → C0
+
+Final Registers:
+Q0: |0⟩
+Q1: |1⟩
+C0: 1
+</pre>
+
+<h2>Emitter Trace Example</h2>
+
+<pre>
+[Emitter Trace]
+LINE 1 → H Q0
+LINE 2 → CX Q0, Q1
+LINE 3 → MEASURE Q0 → C0 [OK]
+Program completed successfully.
+</pre>
+
+<hr>
+
+<!-- ========================= -->
+<!-- § 7 — ERROR GUIDE   -->
+<!-- ========================= -->
+
+<h1 id="sec7">7 · Error Handling and Debugging (Guide)</h1>
+
+<h3>Real-Time Checks</h3>
+<pre>
+XQ0
+→ [Error] Missing space between opcode and register
+</pre>
+
+<h3>Case Sensitivity</h3>
+<pre>
+cx Q0, Q1
+→ [Error] Unknown opcode 'cx'
+</pre>
+
+<h3>Label Validation</h3>
+<pre>
+IF C0 == 1 GOTO LOOP
+→ [Error] Undefined label: LOOP
+</pre>
+
+<h3>Diagnostics</h3>
+<pre>
+[Warning] Label 'END' declared but never used
+[Notice] No measurement instructions detected
+</pre>
+
+<hr>
+
+<!-- ========================= -->
+<!-- § 8 — FLOW          -->
+<!-- ========================= -->
+
+<h1 id="sec8">8 · Compilation Flow</h1>
+
+<h2>Stages</h2>
+<p>Parse → Execute → Emit</p>
+
+<h2>Flow Diagram</h2>
+<p>
+  <span class="flow-diagram">
+    Source Code → Parser → Executor → Emitter → Output
+  </span>
+</p>
+
+<h2>Example Run</h2>
+<pre>
+H Q0
+CX Q0, Q1
+MEASURE Q0 -> C0
+→ Parse ✓ Execute ✓ Emit ✓
+</pre>
+
+<h2>Behind the Scenes</h2>
+<ul>
+  <li>Single-pass interpreter</li>
+  <li>No intermediate files</li>
+  <li>State resets per run</li>
+</ul>
+
+<h2>Emitter Internals</h2>
+
+<pre>
+Line 1 → H Q0
+Line 2 → CX Q0, Q1
+Line 3 → MEASURE Q0 → C0
+[OK] Program completed successfully
+</pre>
+
+<hr>
+
+<!-- ========================= -->
+<!-- § 9 — ADVANCED USE -->
+<!-- ========================= -->
+
+<h1 id="sec9">9 · Advanced Usage and Roadmap</h1>
+
+<h2>9.1 · Macros and Reusable Blocks (planned)</h2>
+<pre>
+DEFINE INIT_STATE
+  H Q0
+  CX Q0, Q1
+END
+
+CALL INIT_STATE
+MEASURE Q1 -> C0
+</pre>
+
+<h2>9.2 · Conditional and Iterative Patterns</h2>
+<p>
+Future versions will add structured <strong>IF / ELSE</strong> and <strong>LOOP</strong>
+constructs while maintaining backward compatibility with the v1 instruction set.
+</p>
+
+<h2>9.3 · Extended Opcode Set (future)</h2>
+<pre>
+RESET – Reinitialize a qubit or register
+RZ    – Phase rotation
+CCX   – Toffoli gate
+</pre>
+
+<h2>9.4 · Licensing API and Automation</h2>
+<p>
+A planned secure endpoint will allow batch compilation for coursework,
+research labs, automated workflows, and enterprise automation.
+</p>
+
+<h2>9.5 · File and Session Persistence</h2>
+<p>
+Upcoming versions will include in-browser file storage and timestamped archives.
+</p>
+
+<h2>9.6 · Roadmap Summary</h2>
+<ul>
+  <li>Minimal but expressive opcode expansion</li>
+  <li>Macro system with deterministic transformation</li>
+  <li>API-level batch compilation</li>
+  <li>Instructor dashboards for academic deployment</li>
+</ul>
+
+<hr>
+
+<!-- ========================= -->
+<!-- § 10 — DOMAINS      -->
+<!-- ========================= -->
+
+<h1 id="sec10">10 · Domain Examples</h1>
+
+<p>Cross-domain demonstrations of eCASM™ in physics, economics, biology, robotics, game theory, finance, and cryptography.</p>
+
+<!-- ======== Physics ======== -->
+
+<h2>10.1 · Physics</h2>
+
+<pre>
+H Q0
+MEASURE Q0 → C0
+</pre>
+<p>Illustrates a basic quantum tunneling or bifurcation test.</p>
+
+<pre>
+H Q0
+H Q1
+CX Q0, Q1
+MEASURE Q0 → C0
+MEASURE Q1 → C1
+</pre>
+<p>Shows constructive/destructive interference patterns.</p>
+
+<!-- ======== Economics ======== -->
+
+<h2>10.2 · Economics</h2>
+
+<pre>
+H Q0
+MEASURE Q0 → C0
+</pre>
+<p>Represents a binary market decision point.</p>
+
+<pre>
+H Q0
+MEASURE Q0 → C0
+IF C0 == 1 GOTO ADJUST
+X Q1
+LABEL ADJUST
+MEASURE Q1 → C1
+</pre>
+<p>Demonstrates policy adjustment logic under uncertainty.</p>
+
+<!-- ======== Biology ======== -->
+
+<h2>10.3 · Biology</h2>
+
+<pre>
+X Q0
+MEASURE Q0 → C0
+</pre>
+<p>Illustrates a gene activation toggle.</p>
+
+<pre>
+H Q0
+MEASURE Q0 → C0
+IF C0 == 0 GOTO SURVIVE
+X Q1
+LABEL SURVIVE
+MEASURE Q1 → C1
+</pre>
+<p>Models a simple biological survival response.</p>
+
+<!-- ======== Robotics ======== -->
+
+<h2>10.4 · Robotics</h2>
+
+<pre>
+H Q0
+MEASURE Q0 → C0
+</pre>
+<p>Represents a probabilistic starting state.</p>
+
+<pre>
+H Q0
+MEASURE Q0 → C0
+IF C0 == 1 GOTO REVERSE
+X Q1
+LABEL REVERSE
+MEASURE Q1 → C1
+</pre>
+<p>Implements a reversible sensor-triggered control loop.</p>
+
+<!-- ======== Game Theory ======== -->
+
+<h2>10.5 · Game Theory</h2>
+
+<pre>
+H Q0
+MEASURE Q0 → C0
+</pre>
+<p>Coin-flip game or randomized strategy selection.</p>
+
+<pre>
+H Q0
+CX Q0, Q1
+MEASURE Q1 → C1
+</pre>
+<p>Illustrates strategic coupling between agents.</p>
+
+<!-- ======== Cryptography ======== -->
+
+<h2>10.6 · Cryptography</h2>
+
+<pre>
+X Q0
+CX Q0, Q1
+MEASURE Q1 → C1
+</pre>
+<p>Shared-bit generation mechanism.</p>
+
+<!-- ======== Finance ======== -->
+
+<h2>10.7 · Finance</h2>
+
+<pre>
+H Q0
+MEASURE Q0 → C0
+</pre>
+<p>Illustrates option expiry or probabilistic market close.</p>
+
+<hr>
+<!-- ========================= -->
+<!-- § 11 — REF ERRORS   -->
+<!-- ========================= -->
+
+<h1 id="sec11">11 · Error Handling and Debugging (Reference)</h1>
+
+<h2>11.1 · Diagnostic Categories</h2>
+
+<ul>
+  <li><strong>Errors:</strong> compilation stops; instruction stream invalid</li>
+  <li><strong>Warnings:</strong> potential issues; compilation proceeds</li>
+  <li><strong>Notices:</strong> informational output</li>
+</ul>
+
+<hr>
+
+<h2>11.2 · Errors (Fatal Conditions)</h2>
+
+<h3>E001 — Malformed or Missing Spacing</h3>
+<p><strong>Message:</strong> <code>[Error] Missing space between opcode and register</code></p>
+<pre>
+XQ0
+</pre>
+<p><strong>Fix:</strong> Insert a space → <code>X Q0</code></p>
+
+<h3>E002 — Unknown Opcode</h3>
+<p><strong>Message:</strong> <code>[Error] Unknown opcode 'cx'</code></p>
+<pre>
+cx Q0, Q1
+</pre>
+<p><strong>Fix:</strong> Use uppercase → <code>CX Q0, Q1</code></p>
+
+<h3>E003 — Undefined Label</h3>
+<p><strong>Message:</strong> <code>[Error] Undefined label: LOOP</code></p>
+<pre>
+IF C0 == 1 GOTO LOOP
+</pre>
+<p><strong>Fix:</strong> Declare the label → <code>LABEL LOOP</code></p>
+
+<hr>
+
+<h2>11.3 · Warnings</h2>
+
+<h3>W001 — Label Declared but Never Used</h3>
+<pre>
+[Warning] Label 'END' declared but never used
+</pre>
+
+<hr>
+
+<h2>11.4 · Notices</h2>
+
+<h3>N001 — No Measurement Instructions</h3>
+<pre>
+[Notice] No measurement instructions detected
+</pre>
+
+<hr>
+
+<h2>11.5 · Summary Table</h2>
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>E001</td>
+    <td>Error</td>
+    <td>Malformed spacing</td>
+  </tr>
+  <tr>
+    <td>E002</td>
+    <td>Error</td>
+    <td>Unknown opcode</td>
+  </tr>
+  <tr>
+    <td>E003</td>
+    <td>Error</td>
+    <td>Undefined label</td>
+  </tr>
+  <tr>
+    <td>W001</td>
+    <td>Warning</td>
+    <td>Unused label</td>
+  </tr>
+  <tr>
+    <td>N001</td>
+    <td>Notice</td>
+    <td>No measurement operations present</td>
+  </tr>
+</table>
+
+<hr>
+
+<!-- ========================= -->
+<!-- § 12 — TROUBLESHOOT -->
+<!-- ========================= -->
+
+<h1 id="sec12">12 · Troubleshooting Guide</h1>
+
+<p><strong>Program Fails to Compile:</strong> Usually spacing or invalid opcode.</p>
+<p><strong>Opcode Not Recognized:</strong> Ensure uppercase.</p>
+<p><strong>GOTO Not Working:</strong> Referenced label missing or misspelled.</p>
+<p><strong>Label Never Used:</strong> Remove or correct.</p>
+<p><strong>No Classical Output:</strong> Add MEASURE instruction.</p>
+<p><strong>Daily Limit Reached:</strong> Free tier exceeded.</p>
+
+<hr>
+
+<!-- ========================= -->
+<!-- § 13 — LICENSING    -->
+<!-- ========================= -->
+
+<h1 id="sec13">13 · Licensing and Support</h1>
+
+<h2>13.1 · Free Trial</h2>
+<ul>
+  <li>Five compiles per day</li>
+  <li>Full feature access</li>
+  <li>Resets nightly at midnight ET</li>
+</ul>
+
+<h2>13.2 · Licensed Access</h2>
+<ul>
+  <li>Unlimited compiles</li>
+  <li>365-day validity</li>
+  <li>Instant activation via Register License modal</li>
+</ul>
+
+<h2>13.3 · Billing Support Only</h2>
+<p>AAD Systems™ provides billing assistance only. No technical support.</p>
+
+<h2>13.4 · Contact</h2>
+<p>Email: <a href="mailto:info@aadsystems.com">info@aadsystems.com</a></p>
+<p>Website: <a href="https://aadsystems.com">https://aadsystems.com</a></p>
+
+<h2>13.5 · Future Features</h2>
+<ul>
+  <li>Academic multi-seat licenses</li>
+  <li>API automation</li>
+  <li>Enterprise dashboards</li>
+</ul>
+<hr>
+
+<!-- ========================= -->
+<!-- APPENDICES               -->
+<!-- ========================= -->
+
+<h1 id="appendices">Appendices</h1>
+
+<p>
+The following appendices provide reference material supporting the eCASM™ Compiler,
+including terminology definitions, consolidated diagnostics, and an index for quick navigation.
+</p>
+
+<h2 id="appendix-a">Appendix A · Glossary</h2>
+<hr>
+
+
+<!-- ========================= -->
+<!-- APPENDIX A — GLOSSARY    -->
+<!-- ========================= -->
+
+<h3 id="glossary-a">A.1 · Core Language Concepts</h3>
+
+<p>
+This glossary defines terms as used specifically within the eCASM™ Compiler and its
+associated algebra. Definitions may differ from conventional usage in programming
+languages or quantum computing literature.
+</p>
+
+<h4>Opcode</h4>
+<p>
+A symbolic instruction representing a primitive operation in the eCASM instruction set
+(e.g., <code>X</code>, <code>H</code>, <code>CX</code>, <code>MEASURE</code>).
+</p>
+
+<h4>Operand</h4>
+<p>
+An argument supplied to an opcode, identifying a target register or value
+(e.g., <code>Q0</code>, <code>C1</code>).
+</p>
+
+<h4>Instruction</h4>
+<p>
+A single executable line consisting of an opcode and zero or more operands.
+</p>
+
+<hr>
+
+<h3 id="glossary-b">A.2 · Registers and Worlds</h3>
+
+<h4>Quantum Register (Q)</h4>
+<p>
+A symbolic register representing a quantum state or control target within the
+eCASM execution model.
+</p>
+
+<h4>Classical Interoperation (C)</h4>
+<p>
+A symbolic register storing classical measurement outcomes.
+</p>
+
+<h4>World</h4>
+<p>
+A contextual execution domain distinguishing quantum and classical state spaces.
+</p>
+<h3 id="glossary-c">A.3 · Control Flow and Structure</h3>
+
+<h4>Label</h4>
+<p>
+A symbolic marker defining a location within the instruction stream
+that may be referenced by control-flow instructions.
+</p>
+
+<h4>GOTO</h4>
+<p>
+A control instruction that transfers execution to a named label
+based on a conditional or unconditional jump.
+</p>
+
+<h4>Conditional Branch</h4>
+<p>
+A control structure that alters execution flow based on the value
+stored in a classical register.
+</p>
+
+<h4>Dangling Reference</h4>
+<p>
+A reference to a label or symbolic target that has not been defined
+within the program.
+</p>
+<p><em>(See definitions in Section A below.)</em></p>
+<h2 id="appendix-b">Appendix B · Error and Warning Codes</h2>
+<hr>
+
+<p>
+This appendix consolidates all compiler diagnostics emitted by the eCASM™ Compiler.
+Each code corresponds to a deterministic validation or execution failure detected
+during the parse, execute, or emit stages.
+</p>
+
+<h3>B.1 · Errors (Fatal)</h3>
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+    <th>Typical Cause</th>
+  </tr>
+  <tr>
+    <td>E001</td>
+    <td>Invalid opcode</td>
+    <td>Opcode not in the supported instruction set</td>
+  </tr>
+  <tr>
+    <td>E002</td>
+    <td>Wrong number of arguments</td>
+    <td>Opcode arity mismatch</td>
+  </tr>
+  <tr>
+    <td>E003</td>
+    <td>Unexpected comma</td>
+    <td>Malformed argument separation</td>
+  </tr>
+  <tr>
+    <td>E004</td>
+    <td>Illegal character</td>
+    <td>Non-ASCII or invalid token detected</td>
+  </tr>
+  <tr>
+    <td>E005</td>
+    <td>Undefined label</td>
+    <td>Referenced label not declared</td>
+  </tr>
+  <tr>
+    <td>E006</td>
+    <td>Duplicate label</td>
+    <td>Label redeclared in same program</td>
+  </tr>
+  <tr>
+    <td>E007</td>
+    <td>World mismatch (Q0/Q1 conflict)</td>
+    <td>Illegal cross-world operation</td>
+  </tr>
+  <tr>
+    <td>E008</td>
+    <td>Invalid compare signature</td>
+    <td>COMPARE opcode used with invalid operands</td>
+  </tr>
+  <tr>
+    <td>E009</td>
+    <td>Illegal transform target</td>
+    <td>TRANSFORM applied to unsupported register</td>
+  </tr>
+  <tr>
+    <td>E010</td>
+    <td>Emit failure</td>
+    <td>Internal emitter consistency violation</td>
+  </tr>
+  <tr>
+    <td>E011</td>
+    <td>Dangling reference</td>
+    <td>Unresolved symbolic reference during emission</td>
+  </tr>
+</table>
+
+<hr>
+
+<h3>B.2 · Warnings (Non-Fatal)</h3>
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+    <th>Meaning</th>
+  </tr>
+  <tr>
+    <td>W001</td>
+    <td>Unused label</td>
+    <td>Declared label never referenced</td>
+  </tr>
+  <tr>
+    <td>W002</td>
+    <td>Redundant instruction</td>
+    <td>Instruction has no observable effect</td>
+  </tr>
+  <tr>
+    <td>W003</td>
+    <td>No-op transform</td>
+    <td>Transform applied but state unchanged</td>
+  </tr>
+</table>
+
+<hr>
+
+<h3>B.3 · Notes</h3>
+<ul>
+  <li>Errors halt compilation immediately</li>
+  <li>Warnings allow compilation to proceed</li>
+  <li>All diagnostics are deterministic and reproducible</li>
+</ul>
+<p><em>(Consolidated diagnostic reference.)</em></p>
+
+<h2 id="appendix-c">Appendix C · Index</h2>
+<hr>
+
+<p>
+This index provides an alphabetical reference to key terms, concepts, and diagnostics
+defined throughout the eCASM™ Developer Manual.
+</p>
+
+<h3>C.1 · Alphabetical Index</h3>
+
+<ul>
+<li><strong>Classical Interoperation (C)</strong> — Appendix A.2 (definition), §5 (usage)</li>
+  <li><strong>COMPARE Opcode</strong> — §§ 3, 4.1</li>
+  <li><strong>Conditional Branch</strong> — Appendix A.3 (definition), §5 (usage)</li>
+  <li><strong>Dangling Reference</strong> — Appendix A.3, Appendix B (E011)</li>
+  <li><strong>Diagnostics</strong> — §§ 7, 11, Appendix B</li>
+  <li><strong>Emit Phase</strong> — §§ 6, 8</li>
+  <li><strong>Error Codes</strong> — § 11, Appendix B</li>
+  <li><strong>Emitter</strong> — §§ 6, 8</li>
+  <li><strong>GOTO</strong> — §§ 5, 7, Appendix A.3</li>
+  <li><strong>Instruction</strong> — §§ 3, Appendix A.1</li>
+  <li><strong>Label</strong> — §§ 4.3, 5, Appendix A.3</li>
+  <li><strong>MEASURE Opcode</strong> — §§ 3, 6</li>
+  <li><strong>No-op Transform</strong> — Appendix B (W003)</li>
+  <li><strong>Opcode</strong> — §§ 3, 4.1, Appendix A.1</li>
+  <li><strong>Operand</strong> — § 3, Appendix A.1</li>
+  <li><strong>Operational Schema</strong> — § 4</li>
+  <li><strong>Quantum Register (Q)</strong> — Appendix A.2</li>
+  <li><strong>Redundant Instruction</strong> — Appendix B (W002)</li>
+  <li><strong>Syntax Rules</strong> — § 3</li>
+  <li><strong>Warnings</strong> — §§ 7, 11, Appendix B</li>
+  <li><strong>World</strong> — §§ 4, Appendix A.2</li>
+</ul>
+
+<hr>
+
+<p>
+Index entries refer to the primary section where the term is formally defined
+or most heavily discussed.
+</p>
+<p><em>(Alphabetical index of terms and concepts.)</em></p>
+<p><strong>End of Manual</strong></p>
+
+</main>
+
+<footer>
+  © 2025 AAD Systems™ · All Rights Reserved · Powered by AAD Systems™ Cloud
+</footer>
+
+</body>
+</html>

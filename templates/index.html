@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>eCASM™ Compiler</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top left, #1e0b3b, #0a0b22);
+      color: #e6e6e6;
+    }
+
+    .header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 40px;
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .app-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #e6e6ff;
+      user-select: none;
+    }
+
+    .login-btn, .buy-btn {
+      background: linear-gradient(90deg, #6d50ff, #8b64ff);
+      color: #fff; padding: 10px 20px; border-radius: 8px;
+      text-decoration: none; font-weight: 600; border: none;
+      transition: all 0.2s ease; cursor: pointer;
+    }
+    .login-btn:hover, .buy-btn:hover {
+      background: linear-gradient(90deg, #8b64ff, #a378ff);
+      transform: translateY(-1px);
+    }
+
+    .container {
+      display: flex; gap: 40px; padding: 40px;
+      justify-content: center; align-items: flex-start;
+      background: #0a0b22;
+      border-radius: 20px; margin: 40px auto; width: fit-content;
+      box-shadow: 0 0 40px rgba(0,0,0,0.4);
+    }
+
+    .left, .right {
+      background: rgba(255,255,255,0.03);
+      padding: 30px; border-radius: 16px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.3);
+    }
+
+    .left  { flex: 0 0 640px; }
+    .right { flex: 0 0 360px; }
+
+    textarea {
+      width: 100%; height: 200px; background: #0e0e12;
+      color: #00e6ff;
+      border: 1px solid #333; border-radius: 8px;
+      padding: 10px; font-family: monospace;
+      resize: vertical;
+    }
+
+    button {
+      cursor: pointer;
+      background: linear-gradient(90deg, #693cff, #825eff);
+      border: none; color: white; font-weight: 600;
+      padding: 10px 18px; border-radius: 8px;
+      margin: 6px 4px 6px 0;
+      transition: all 0.2s ease;
+    }
+    button:hover {
+      background: linear-gradient(90deg, #825eff, #9d73ff);
+    }
+
+    .output {
+      background: #0e0e12; color: #aaffcc;
+      border-radius: 8px; padding: 12px;
+      min-height: 120px; font-family: monospace;
+      margin-top: 10px; border: 1px solid #333;
+      white-space: pre-wrap;
+    }
+
+    .legend, .syntax {
+      background: rgba(255,255,255,0.05);
+      padding: 15px; border-radius: 10px; margin-bottom: 20px;
+    }
+
+    table { width: 100%; border-collapse: collapse; }
+    td    { padding: 4px 0; vertical-align: top; }
+
+    .footer {
+      text-align: center; color: #b9b9b9;
+      padding: 20px; margin-top: 60px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.9rem;
+    }
+
+    #toast {
+      position: fixed; bottom: 25px; right: 25px;
+      background: rgba(0,0,0,0.8); color: #00ffcc;
+      padding: 10px 16px; border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,255,200,0.6);
+      opacity: 0; transition: opacity 0.35s ease;
+      z-index: 9999; font-weight: 600;
+    }
+
+    /* License modal */
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+      display: none; align-items: center; justify-content: center;
+      z-index: 10000;
+    }
+    .modal-visible { display: flex; }
+
+    .modal {
+      width: 360px; background: #121225;
+      border-radius: 12px; padding: 18px;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .modal h2 { color: #fff; margin: 0 0 10px; }
+    .modal input {
+      width: 100%; background: #0e0e12;
+      color: #e6e6e6; border: 1px solid #333;
+      border-radius: 8px; padding: 10px;
+    }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
+    .error-text { color: #ff9aa2; min-height: 1.2em; }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <div style="display:flex; gap:14px; align-items:center;">
+      <span class="app-title">
+        eCASM<span style="font-size:0.8em;">™</span> Compiler
+      </span>
+
+    <a class="login-btn" href="/">
+  🏠 Home
+</a>
+
+<a class="login-btn" href="{{ url_for('static', filename='documentation.html') }}" target="_blank">
+  📘 Documentation
+</a>
+
+      <button class="login-btn" id="registerLicenseBtn">
+        Register License
+      </button>
+    </div>
+
+    <div class="header-actions">
+      <a class="buy-btn"
+         target="_blank"
+         href="https://checkout.square.site/merchant/MLPC93S9AC77C/checkout/IHMELERAJHDEQFN5FJMQD5RQ">
+         Buy eCASM
+      </a>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="left">
+      <h3>Enter CASM / Quantum Code</h3>
+      <p style="color:#bdbddb;font-size:0.95rem;margin-bottom:6px;">
+        💡 Paste your CASM or quantum code below, or upload a file.
+      </p>
+
+      <textarea id="codeInput">X Q0
+H Q1
+CX Q0 Q1
+MEASURE Q1 -> C0</textarea>
+
+      <div style="margin-top: 12px;">
+        <button onclick="compileCode()">⚙️ Compile</button>
+        <button onclick="loadDemo()">Load Demo</button>
+        <button onclick="uploadCode()">Upload Code</button>
+        <button onclick="clearCode()">Clear</button>
+        <input id="fileInput" type="file" accept=".txt,.ecasm" style="display:none" />
+      </div>
+
+      <h3>Compiled Output</h3>
+      <div id="output" class="output">Output will appear here...</div>
+
+      <button onclick="copyOutput()">Copy Output</button>
+      <button onclick="downloadOutput()">Download .ecasm</button>
+
+      <h3>Emitter Simulation</h3>
+      <button onclick="emitCode()">🚀 Emit</button>
+
+      <div id="emitterConsole" class="output" style="color:#b6ffb3;">
+        Emitter output will appear here...
+      </div>
+    </div>
+
+    <div class="right">
+
+      <!-- Quantum Opcode Legend -->
+      <div class="legend">
+        <h3>⚛️ Quantum Opcode Legend</h3>
+        <table>
+          <tr><td>X →</td><td>Pauli-X (bit flip)</td></tr>
+          <tr><td>H →</td><td>Hadamard (superposition)</td></tr>
+          <tr><td>CX →</td><td>CNOT (control Q0 → target Q1)</td></tr>
+          <tr><td>MEASURE →</td><td>Collapse to classical bit</td></tr>
+        </table>
+      </div>
+
+      <!-- CASM Syntax -->
+      <div class="syntax">
+        <h3>🧭 CASM Syntax — Supported Now</h3>
+
+        <table>
+          <tr>
+            <td><strong>Classical</strong></td>
+            <td><strong>Quantum</strong></td>
+          </tr>
+
+          <tr>
+            <td>MOV R1, 5</td>
+            <td>X Q0</td>
+          </tr>
+
+          <tr>
+            <td>MOV R2, 10</td>
+            <td>H Q1</td>
+          </tr>
+
+          <tr>
+            <td>ADD R3, R1, R2</td>
+            <td>CX Q0 Q1</td>
+          </tr>
+
+          <tr>
+            <td>LABEL 10</td>
+            <td>MEASURE Q1 → C0</td>
+          </tr>
+
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- eCASM Foundations -->
+  <div class="info-card"
+       style="max-width:450px;margin:0 auto 40px;background:rgba(255,255,255,0.04);
+              padding:24px;border-radius:16px;box-shadow:0 0 25px rgba(0,0,0,0.35);">
+
+    <h3 style="margin-top:0;color:#d2c8ff;">📘 eCASM Foundations</h3>
+
+    <p style="line-height:1.6;font-size:0.95rem;">
+      <a href="https://drive.google.com/file/d/14Zs0--WUeJPYEN1N2DNj7WD17TDmEqIl/view"
+         target="_blank"
+         style="font-size:1.05rem; font-weight:700; color:#3b22ff; text-decoration:underline;">
+        ➜ Download the eCASM Algebra (PDF)
+      </a>
+    </p>
+  </div>
+
+  <div class="footer">
+    © 2025 AAD Systems™ · All Rights Reserved<br>
+    Support is limited to billing and license access.
+  </div>
+
+  <div id="toast"></div>
+
+  <!-- License Modal -->
+  <div id="licenseBackdrop" class="modal-backdrop" onclick="closeLicenseModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <h2>Register License</h2>
+      <div id="licenseError" class="error-text"></div>
+      <label>License Key</label>
+      <input id="licenseKeyInput" type="text" placeholder="Paste your license key" />
+      <div class="modal-actions">
+        <button onclick="closeLicenseModal()">Cancel</button>
+        <button id="activateLicenseBtn">Activate</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+async function compileCode() {
+  const code = document.getElementById('codeInput').value.trim();
+  const outputBox = document.getElementById('output');
+
+  if (!code) {
+    outputBox.innerText = "⚠️ No code provided.";
+    return;
+  }
+
+  try {
+    const res = await fetch('/compile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code })
+    });
+
+    const data = await res.json();
+
+    if (!data.ok) {
+      outputBox.style.color = "#ff9aa2";
+      outputBox.innerText =
+        "❌ Compiler Errors:\n" + (data.errors || []).join("\n");
+      return;
+    }
+
+    outputBox.style.color = "#aaffcc";
+    outputBox.innerText =
+      data.output || data.compiled_output || "No output.";
+
+  } catch (err) {
+    outputBox.style.color = "#ff9aa2";
+    outputBox.innerText = "❌ Compiler error: network/server failure.";
+  }
+}
+
+function loadDemo() {
+  document.getElementById('codeInput').value =
+`X Q0
+H Q1
+CX Q0 Q1
+MEASURE Q1 -> C0`;
+  document.getElementById('output').innerText = 'Output will appear here...';
+}
+
+function uploadCode() {
+  const f = document.getElementById('fileInput');
+  f.click();
+  f.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const r = new FileReader();
+    r.onload = v => {
+      document.getElementById('codeInput').value = v.target.result;
+      document.getElementById('output').innerText = 'Code loaded.';
+    };
+    r.readAsText(file);
+  };
+}
+
+function clearCode() {
+  document.getElementById('codeInput').value = '';
+  document.getElementById('output').innerText = 'Output will appear here...';
+  document.getElementById('emitterConsole').innerText = 'Emitter output will appear here...';
+}
+
+function copyOutput() {
+  navigator.clipboard.writeText(document.getElementById('output').innerText);
+  showToast('✅ Output copied to clipboard');
+}
+
+function downloadOutput() {
+  const c = document.getElementById('output').innerText;
+  const b = new Blob([c], { type: 'text/plain' });
+  const l = document.createElement('a');
+  l.href = URL.createObjectURL(b);
+  l.download = 'compiled.ecasm';
+  l.click();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.opacity = '1';
+  setTimeout(() => (t.style.opacity = '0'), 1600);
+}
+
+async function emitCode() {
+  const code = document.getElementById('output').innerText.trim();
+  const consoleBox = document.getElementById('emitterConsole');
+
+  if (!code || code === 'Output will appear here...') {
+    return showToast('⚠️ No compiled code to emit.');
+  }
+
+  consoleBox.textContent = '🚀 Starting emission...\n';
+
+  try {
+    const res = await fetch('/emit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code })
+    });
+
+    const data = await res.json();
+    consoleBox.textContent = data.emission || 'No emission data returned.';
+
+  } catch (err) {
+    consoleBox.textContent = 'Emitter error. Please try again.';
+  }
+}
+
+const licenseBtn = document.getElementById('registerLicenseBtn');
+const licenseBD  = document.getElementById('licenseBackdrop');
+const licenseErr = document.getElementById('licenseError');
+const licenseInput = document.getElementById('licenseKeyInput');
+
+function openLicenseModal() {
+  licenseErr.textContent = '';
+  licenseInput.value = '';
+  licenseBD.classList.add('modal-visible');
+  setTimeout(() => licenseInput && licenseInput.focus(), 0);
+}
+
+function closeLicenseModal(ev) {
+  if (ev && ev.target !== ev.currentTarget) return;
+  licenseBD.classList.remove('modal-visible');
+}
+
+async function activateLicense() {
+  const key = (licenseInput.value || '').trim();
+  if (!key) {
+    licenseErr.textContent = 'Please paste your license key.';
+    return;
+  }
+
+  try {
+    const res = await fetch('/register_license', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ license_key: key })
+    });
+
+    const data = await res.json();
+
+    if (data.ok) {
+      showToast('🔓 License activated');
+      closeLicenseModal();
+    } else {
+      licenseErr.textContent = data.message || 'Invalid license key.';
+    }
+
+  } catch (err) {
+    licenseErr.textContent = 'Network error. Please try again.';
+  }
+}
+
+licenseBtn.addEventListener('click', openLicenseModal);
+document.getElementById('activateLicenseBtn').addEventListener('click', activateLicense);
+licenseInput.addEventListener('keydown', e => { if (e.key === 'Enter') activateLicense(); });
+
+</script>
+<!-- Default Statcounter code for ecasm
+https://ecasm.aadsystems.com/ -->
+<script type="text/javascript">
+var sc_project=13195481; 
+var sc_invisible=1; 
+var sc_security="0dd61680"; 
+</script>
+<script type="text/javascript"
+src="https://www.statcounter.com/counter/counter.js"
+async></script>
+<noscript><div class="statcounter"><a title="Web Analytics"
+href="https://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="https://c.statcounter.com/13195481/0/0dd61680/1/"
+alt="Web Analytics"
+referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+<!-- End of Statcounter Code -->
+</body>
+</html>
