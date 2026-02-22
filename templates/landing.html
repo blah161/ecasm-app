@@ -1,3 +1,4 @@
+<!-- RENDER DEPLOY TEST: 2026-01-27 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,6 +33,7 @@
 
     a { color: #8cb4ff; text-decoration: none; }
     a:hover { text-decoration: underline; }
+    .brand:hover { text-decoration: none; }
 
     /* Top Nav */
     .topbar {
@@ -64,6 +66,12 @@
       font-size: 0.8rem;
       color: var(--text-muted);
     }
+    .brand-line2 {
+  color: #8cb4ff;
+}
+.brand:hover .brand-line2 {
+  color: #c2c9ff;
+}
 
     .nav-actions {
       display: flex;
@@ -312,17 +320,18 @@
 
   <!-- Top navigation -->
   <header class="topbar">
-    <div class="brand">
-      <div class="brand-line1">ECASM™ COMPILER</div>
-      <div class="brand-line2">AAD Systems™ · Executable CASM → Machine Code</div>
+  <div class="brand">
+    <div class="brand-line1">ECASM™ COMPILER</div>
+    <div class="brand-line2">
+      <a href="https://aadsystems.com" target="_blank">AADSystems.com</a> · AAD Systems™ · Executable CASM → Machine Code
     </div>
+  </div>
 
     <div class="nav-actions">
       <button class="nav-link" onclick="window.open('https://ecasm.aadsystems.com/compiler','_blank')">
   Launch Compiler
-</button>
-    <button class="nav-link"
-        onclick="window.open('https://ecasm.aadsystems.com/static/documentation.html','_blank')">
+<button class="nav-link"
+        onclick="window.open('https://ecasm.aadsystems.com/ecasm_documentation.html','_blank')">
   Documentation
 </button>
       <button class="nav-cta"
@@ -390,25 +399,6 @@
         </div>
       </article>
 
-      <!-- eCASM Foundations -->
-      <article class="section-card">
-        <div class="section-label">📘 ECASM FOUNDATIONS</div>
-        <h2 class="section-title">Download the eCASM Algebra</h2>
-
-        <div class="section-body">
-          The mathematical foundation of the instruction set is defined in the eCASM Algebra 
-          (Extended Edition), a structural formalism built on the Concise Assembly System Model.
-        </div>
-
-        <div class="foundations-link">
-          👉
-          <a href="https://drive.google.com/file/d/14Zs0--WUeJPYEN1N2DNj7WD17TDmEqIl/view?usp=sharing"
-             target="_blank" rel="noopener">
-            eCASM Algebra (Extended Edition, v1) — PDF
-          </a>
-        </div>
-      </article>
-
       <!-- Section 2: What is CASM -->
       <article class="section-card">
         <div class="section-label">📘 SECTION 2</div>
@@ -438,8 +428,9 @@
   </main>
 
   <footer>
-  © 2025 AAD Systems™ · All Rights Reserved
-  <span>Support is limited to billing and license access.</span>
+© 2025 <a href="https://aadsystems.com" target="_blank">AAD Systems™</a> · 
+<a href="https://aadsystems.com" target="_blank">AADSystems.com</a> · 
+All Rights Reserved</span>
   <span>
     Contact: <a href="mailto:adrian@aadsystems.com">adrian@aadsystems.com</a>
   </span>
