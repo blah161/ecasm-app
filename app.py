@@ -4,7 +4,7 @@ import re
 import os
 import json
 import uuid
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates", static_folder="static")
 # -------------------------------
 # FREE COMPILE LIMIT CONFIG
 # -------------------------------
